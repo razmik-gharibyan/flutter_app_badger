@@ -35,7 +35,7 @@ public class FlutterAppBadgerPlugin implements MethodCallHandler {
       if (ShortcutBadger.isBadgeCounterSupported(context)) {
         ShortcutBadger.applyCount(context, Integer.valueOf(call.argument("count").toString()));
       } else {
-        Notification.Builder builder = new Notification.Builder(getApplicationContext())
+        Notification.Builder builder = new Notification.Builder(getApplicationContext());
         Notification notification = builder.build();
         ShortcutBadger.applyNotification(getApplicationContext(), notification, badgeCount);
       }
