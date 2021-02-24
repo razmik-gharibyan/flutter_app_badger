@@ -37,7 +37,7 @@ public class FlutterAppBadgerPlugin implements MethodCallHandler {
       } else {
         Notification.Builder builder = new Notification.Builder(getApplicationContext());
         Notification notification = builder.build();
-        ShortcutBadger.applyNotification(getApplicationContext(), notification, badgeCount);
+        ShortcutBadger.applyNotification(getApplicationContext(), notification, Integer.valueOf(call.argument("count").toString()));
       }
       result.success(null);
     } else if (call.method.equals("removeBadge")) {
