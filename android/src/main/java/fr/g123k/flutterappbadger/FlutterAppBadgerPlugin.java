@@ -7,6 +7,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import android.app.Notification;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
@@ -31,7 +32,13 @@ public class FlutterAppBadgerPlugin implements MethodCallHandler {
   @Override
   public void onMethodCall(MethodCall call, Result result) {
     if (call.method.equals("updateBadgeCount")) {
-      ShortcutBadger.applyCount(context, Integer.valueOf(call.argument("count").toString()));
+      if (ShortcutBadger.isBadgeCounterSupported(context)) {
+        ShortcutBadger.applyCount(context, Integer.valueOf(call.argument("count").toString()));
+      } else {
+        Notification.Builder builder = new Notification.Builder(getApplicationContext())
+        Notification notification = builder.build();
+        ShortcutBadger.applyNotification(getApplicationContext(), notification, badgeCount);
+      }
       result.success(null);
     } else if (call.method.equals("removeBadge")) {
       ShortcutBadger.removeCount(context);
